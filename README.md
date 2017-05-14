@@ -90,7 +90,7 @@ Defines helper evaluation functions used to build the phenotypes dataframe as mo
 the correct class assignment.
 
 # Example results
-Below are histograms that summarize a demo experiment in which fully connected architectures were evolved over 3 generations (30 models per generation) to conduct NLP-based classification of Reuters news articles into 46 different news topics (see DEMOS--*****ADD LINK********--for more info). Each histogram plots the train and test accuracies of the 30 models from a given generation. They show that model accuracies improve in the third generation, and the models suffer from over-fitting. The over-fitting issue can likely be addressed in future versions of deeplearngene, where regularization will be added to the model diversification landscape.
+Below are histograms that summarize a demo experiment in which fully connected architectures were evolved over 3 generations (30 models per generation) to conduct NLP-based classification of Reuters news articles into 46 different news topics (see [demos](https://github.com/lab3000/deeplearngene/tree/master/demos) for more info). Each histogram plots the train and test accuracies of the 30 models from a given generation. They show that model accuracies improve in the third generation, and the models suffer from over-fitting. The over-fitting issue can likely be addressed in future versions of deeplearngene, where regularization will be added to the model diversification landscape.
 
 ![generational_accuracy](images/generational_accuracy.png)
 
