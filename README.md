@@ -73,24 +73,26 @@ Clade functions are now available in my_clade, including:
   * produces a new genotypes dataframe by recombining encoded hyperparameters from selected parents and randomly mutating hyperparamter values
 
 # Module Overview
-__envrionment.py__  
+*src/envrionment.py*  
 Uses sacred to define default values of the config dictionary used for model diversification and selection
 
-__clade.py__
+*src/clade.py*
 Defines the parent clade class, and takes care of data loading and some preprocessing (including train/validation/test splitting) in the load_data() class function
 
-__clades.py__
+*src/clades.py*
 Defines clade sub-classes (currently just GAFC1) and implements most clade functions (spawn, breed, seed_models, grow_models, and select_parents)
 
-__callbacks.py__
+*src/callbacks.py*
 Defines callbacks (inheritance from the Keras Callback class) used during model training. The callback is called as models are trained in the clades.grow_models() function. Currently only one callback object, MonitorGrowth, is defined. MonitorGrowth includes an early stopping option, such that training will terminate at the end of an epoch if training has gone longer than a maximum specified time duration.
 
-__evaluations.py__
+*src/evaluations.py*
 Defines helper evaluation functions used to build the phenotypes dataframe as models are evaluated in clades.grow_models(). Currently only one helper function, onehot_misclassified(), is defined. This functino records each misclassified datapoint along with
 the correct class assignment.
 
 # Example results
-ADD THE GRAPHS FROM REUTERS NEWS EVOLUTION
+Below are histograms that summarize a demo experiment in which fully connected architectures were evolved over 3 generations (30 models per generation) to conduct NLP-based classification of Reuters news articles into 46 different news topics (see DEMOS--*****ADD LINK********--for more info). Each histogram plots the train and test accuracies of the 30 models from a given generation. They show that model accuracies improve in the third generation, and the models suffer from over-fitting. The over-fitting issue can likely be addressed in future versions of deeplearngene, where regularization will be added to the model diversification landscape.
+
+![generational_accuracy](images/generational_accuracy.png)
 
 To Do
 -----
