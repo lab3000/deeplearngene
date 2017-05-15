@@ -8,9 +8,9 @@ Author: Lukmaan A. Bawazer
 
 Overview
 --------
-This package optimizes deep learning model architectures via genetic programming. Currently only simple fully connected architectures are supported, with plans to extend the package to RNN and CNN architectures in the near future.
+This project optimizes deep learning model architectures via genetic programming. Currently only simple fully connected architectures are supported, with plans to extend the package to RNN and CNN architectures in the near future.
 
-In addition to the notes below, a step-by-step introduction is provided in the Demos (ADD LINK) folder.
+In addition to the notes below, a step-by-step introduction is provided in the [demos](https://github.com/lab3000/deeplearngene/tree/master/demos) folder.
 
 #### Usage Notes ####
 Currently the package is set up to be run interactively (e.g., from an Jupyter notebook), using [sacred](http://sacred.readthedocs.io/en/latest/quickstart.html) as a tool to edit a default config dictionary which defines parameters for an experiment. (In the future an automated evolution option will be added, whereby diversification, selection, and breed occur automatically across a specified number of model generations.)
