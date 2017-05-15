@@ -45,7 +45,7 @@ Or make changes to the config dictionary via config_updates if desired.
 config_dict = ex.run(config_updates={'population_size':80})
 ```
 
-Define a GAFC1 clade object. "GAFC1" stands for "_G_enetic _A_lgorithm operations for _F_ully _C_onnected architectures version _1_". Creation of additional clade objects, for us in evolving different types of deep learning architectures, is planned.
+Define a GAFC1 clade object. "GAFC1" stands for *G*enetic *A*lgorithm operations for *F*ully *C*onnected architectures version *1*. Creation of additional clade objects, for use in evolving different types of deep learning architectures, is planned.
 
 ```python
 #.config refers to the config dictionary of the sacred object
@@ -56,41 +56,41 @@ Clade functions are now available in my_clade, including:
 - my_clade.load_data()
   * Loads the data into the clade object
 - my_clade.spawn()
-  * Creates "genes" that define specific model architectures.
-    _Output_: a pickled "genotypes.p" dataframe, which is also stored in the object as a property (my_clade.genotypes), where each row in the dataframe encodes a different keras fully connected model architecture
+  * Creates "genes" that define specific model architectures.    
+  _Output_: a pickled "genotypes.p" dataframe, which is also stored in the object as a property (my_clade.genotypes), where each row in the dataframe encodes a different keras fully connected model architecture
 - my_clade.seed_models()
   * Constructs, compiles, and saves (.h5 serializes) all keras models encoded in a genotypes dataframe
 - my_clade.grow_models()
-  * Loads saved models, then trains and evaluates them. Uses the  MonitorGrowth callback function (defined in callbacks.py) to track batch- and epoch-level performance.
-    _Output_:
-      1. a pickled "phenotypes.p" dataframe, which is also stored in the object as a property (my_clade.phenotypes), where each row in this dataframe summarizes the train and test loss and accuracy for each model, and also records the time taken to run each model  
-      2. Pickled "growth_analysis.p" dataframes--one of each trained model. These dataframes include the train and validation loss and accuracy for each batch and epoch of training, and also the time taken in seconds to run each batch and epoch
-      3. Saved (.h5 serialized) trained keras models
+  * Loads saved models, then trains and evaluates them. Uses the  MonitorGrowth callback function (defined in callbacks.py) to track batch- and epoch-level performance.    
+  _Output_:
+      1. A pickled "phenotypes.p" dataframe, which is also stored in the object as a property (my_clade.phenotypes). Each row in this dataframe summarizes the train and test loss and accuracy for each model, and also records the time taken to run each model.  
+      2. Pickled "growth_analysis.p" dataframes--one of each trained model. These dataframes include the train and validation loss and accuracy for each batch and epoch of training, and also the time taken in seconds to run each batch and epoch.
+      3. Saved (.h5 serialized) trained keras models.
 - my_clade.select_parents()
-  * Uses a phenotypes dataframe to select a subsets of models based on performance metric thresholds (by default, the 20% best performing models by test accuracy, plus 10% models randomly selected from the phenotype dataframe)
-    _Output_: Stores selected models as an object property, my_clade.parent_genes
+  * Uses a phenotypes dataframe to select a subsets of models based on performance metric thresholds (by default, the 20% best performing models by test accuracy, plus 10% models randomly selected from the phenotype dataframe).    
+  _Output_: Stores selected models as an object property, my_clade.parent_genes.
 - my_clade.breed()
-  * produces a new genotypes dataframe by recombining encoded hyperparameters from selected parents and randomly mutating hyperparamter values
+  * Produces a new genotypes dataframe by recombining encoded hyperparameters from selected parents and by randomly mutating hyperparamter values.
 
 # Module Overview
 *src/envrionment.py*  
-Uses sacred to define default values of the config dictionary used for model diversification and selection
+Uses sacred to define default values of the config dictionary used for model diversification and selection.
 
-*src/clade.py*
-Defines the parent clade class, and takes care of data loading and some preprocessing (including train/validation/test splitting) in the load_data() class function
+*src/clade.py*    
+Defines the parent clade class, and takes care of data loading and some preprocessing (including train/validation/test splitting) in the load_data() class function.
 
-*src/clades.py*
-Defines clade sub-classes (currently just GAFC1) and implements most clade functions (spawn, breed, seed_models, grow_models, and select_parents)
+*src/clades.py*    
+Defines clade sub-classes (currently just GAFC1) and implements most clade functions (spawn, breed, seed_models, grow_models, and select_parents).
 
-*src/callbacks.py*
+*src/callbacks.py*    
 Defines callbacks (inheritance from the Keras Callback class) used during model training. The callback is called as models are trained in the clades.grow_models() function. Currently only one callback object, MonitorGrowth, is defined. MonitorGrowth includes an early stopping option, such that training will terminate at the end of an epoch if training has gone longer than a maximum specified time duration.
 
-*src/evaluations.py*
+*src/evaluations.py*    
 Defines helper evaluation functions used to build the phenotypes dataframe as models are evaluated in clades.grow_models(). Currently only one helper function, onehot_misclassified(), is defined. This functino records each misclassified datapoint along with
 the correct class assignment.
 
 # Example results
-Below are histograms that summarize a demo experiment in which fully connected architectures were evolved over 3 generations (30 models per generation) to conduct NLP-based classification of Reuters news articles into 46 different news topics (see [demos](https://github.com/lab3000/deeplearngene/tree/master/demos) for more info). Each histogram plots the train and test accuracies of the 30 models from a given generation. They show that model accuracies improve in the third generation, and the models suffer from over-fitting. The over-fitting issue can likely be addressed in future versions of deeplearngene, where regularization will be added to the model diversification landscape.
+Below are histograms that summarize a demo experiment in which fully connected architectures were evolved over 3 generations (30 models per generation) to conduct NLP-based classification of Reuters news articles into 46 different news topics (see [demos](https://github.com/lab3000/deeplearngene/tree/master/demos) for more info). Each histogram plots the train and test accuracies of the 30 models from a given generation. The histograms show that model accuracies improve in the third generation, and the models suffer from over-fitting. The over-fitting issue can likely be addressed in future versions of deeplearngene by regularization, which will be added to the model diversification landscape.
 
 ![generational_accuracy](images/generational_accuracy.png)
 
